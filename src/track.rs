@@ -127,15 +127,15 @@ pub enum NalUnitSeparator {
 
 #[derive(Debug, Clone)]
 pub struct PacketizationHandlerInit {
-    ssrc: u32,
-    cname: CString,
-    payload_type: u8,
-    clock_rate: u32,
-    sequence_number: u16,
-    timestamp: u32,
-    nal_separator: NalUnitSeparator,
-    max_fragment_size: u16,
-    obu_packization: ObuPacketization,
+    pub ssrc: u32,
+    pub cname: CString,
+    pub payload_type: u8,
+    pub clock_rate: u32,
+    pub sequence_number: u16,
+    pub timestamp: u32,
+    pub nal_separator: NalUnitSeparator,
+    pub max_fragment_size: u16,
+    pub obu_packization: ObuPacketization,
 }
 
 impl PacketizationHandlerInit {
