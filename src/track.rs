@@ -107,6 +107,52 @@ impl TrackInit {
     }
 }
 
+#[derive(Debug, Clone, Copy)]
+#[cfg_attr(any(not(target_os = "windows"), target_env = "gnu"), repr(u32))]
+#[cfg_attr(all(target_os = "windows", not(target_env = "gnu")), repr(i32))]
+pub enum ObuPacketization {
+    Obu = sys::rtcObuPacketization_RTC_OBU_PACKETIZED_OBU,
+    TemporalUnit = sys::rtcObuPacketization_RTC_OBU_PACKETIZED_TEMPORAL_UNIT,
+}
+
+#[derive(Debug, Clone, Copy)]
+#[cfg_attr(any(not(target_os = "windows"), target_env = "gnu"), repr(u32))]
+#[cfg_attr(all(target_os = "windows", not(target_env = "gnu")), repr(i32))]
+pub enum NalUnitSeparator {
+    Length = sys::rtcNalUnitSeparator_RTC_NAL_SEPARATOR_LENGTH,
+    LongStartSequence = sys::rtcNalUnitSeparator_RTC_NAL_SEPARATOR_LONG_START_SEQUENCE,
+    ShortStartSequence = sys::rtcNalUnitSeparator_RTC_NAL_SEPARATOR_SHORT_START_SEQUENCE,
+    StartSequence = sys::rtcNalUnitSeparator_RTC_NAL_SEPARATOR_START_SEQUENCE,
+}
+
+#[derive(Debug, Clone)]
+pub struct PacketizationHandlerInit {
+    ssrc: u32,
+    cname: CString,
+    payload_type: u8,
+    clock_rate: u32,
+    sequence_number: u16,
+    timestamp: u32,
+    nal_separator: NalUnitSeparator,
+    max_fragment_size: u16,
+    obu_packization: ObuPacketization,
+}
+
+impl PacketizationHandlerInit {
+    pub(crate) fn as_raw(&self) -> sys::rtcPacketizationHandlerInit {
+        sys::rtcPacketizationHandlerInit {
+            ssrc: self.ssrc,
+            cname: self.cname.as_ref().as_ptr(),
+            payloadType: self.payload_type,
+            clockRate: self.clock_rate,
+            sequenceNumber: self.sequence_number,
+            timestamp: self.timestamp,
+            nalSeparator: self.nal_separator as _,
+            maxFragmentSize: self.max_fragment_size,
+            obuPacketization: self.obu_packization as _,
+        }
+    }
+}
 #[allow(unused_variables)]
 pub trait TrackHandler {
     fn on_open(&mut self) {}
@@ -278,6 +324,25 @@ where
         check(unsafe { sys::rtcGetTrackDirection(self.id, &mut direction) })
             .expect("Couldn't get RtcTrack direction");
         Direction::try_from(direction).unwrap_or(Direction::Unknown)
+    }
+    pub fn set_h264_packetization(&mut self, init: PacketizationHandlerInit) -> Result<()> {
+        check(unsafe { sys::rtcSetH264PacketizationHandler(self.id, &init.as_raw()) }).map(|_| ())
+    }
+
+    pub fn set_h265_packetization(&mut self, init: PacketizationHandlerInit) -> Result<()> {
+        check(unsafe { sys::rtcSetH265PacketizationHandler(self.id, &init.as_raw()) }).map(|_| ())
+    }
+
+    pub fn set_av1_packetization(&mut self, init: PacketizationHandlerInit) -> Result<()> {
+        check(unsafe { sys::rtcSetAV1PacketizationHandler(self.id, &init.as_raw()) }).map(|_| ())
+    }
+
+    pub fn set_opus_packetization(&mut self, init: PacketizationHandlerInit) -> Result<()> {
+        check(unsafe { sys::rtcSetOpusPacketizationHandler(self.id, &init.as_raw()) }).map(|_| ())
+    }
+
+    pub fn set_aac_packetization(&mut self, init: PacketizationHandlerInit) -> Result<()> {
+        check(unsafe { sys::rtcSetAACPacketizationHandler(self.id, &init.as_raw()) }).map(|_| ())
     }
 }
 
