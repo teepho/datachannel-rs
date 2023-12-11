@@ -97,7 +97,7 @@ pub use crate::peerconnection::{
     PeerConnectionHandler, PeerConnectionId, RtcPeerConnection, SdpType, SessionDescription,
     SignalingState,
 };
-pub use crate::track::{Codec, Direction, RtcTrack, TrackHandler, TrackInit, ObuPacketization, NalUnitSeparator};
+pub use crate::track::{Codec, Direction, RtcTrack, TrackHandler, TrackInit, PacketizationHandlerInit, ObuPacketization, NalUnitSeparator};
 
 #[doc(inline)]
 pub use webrtc_sdp as sdp;
