@@ -53,8 +53,8 @@ impl Reliability {
         sys::rtcReliability {
             unordered: self.unordered,
             unreliable: self.unreliable,
-            maxPacketLifeTime: self.max_packet_life_time as i32,
-            maxRetransmits: self.max_retransmits as i32,
+            maxPacketLifeTime: self.max_packet_life_time as _,
+            maxRetransmits: self.max_retransmits as _,
         }
     }
 }

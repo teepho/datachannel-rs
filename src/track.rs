@@ -326,23 +326,23 @@ where
         Direction::try_from(direction).unwrap_or(Direction::Unknown)
     }
     pub fn set_h264_packetization(&mut self, init: PacketizationHandlerInit) -> Result<()> {
-        check(unsafe { sys::rtcSetH264PacketizationHandler(self.id, &init.as_raw()) }).map(|_| ())
+        check(unsafe { sys::rtcSetH264Packetizer(self.id, &init.as_raw()) }).map(|_| ())
     }
 
     pub fn set_h265_packetization(&mut self, init: PacketizationHandlerInit) -> Result<()> {
-        check(unsafe { sys::rtcSetH265PacketizationHandler(self.id, &init.as_raw()) }).map(|_| ())
+        check(unsafe { sys::rtcSetH265Packetizer(self.id, &init.as_raw()) }).map(|_| ())
     }
 
     pub fn set_av1_packetization(&mut self, init: PacketizationHandlerInit) -> Result<()> {
-        check(unsafe { sys::rtcSetAV1PacketizationHandler(self.id, &init.as_raw()) }).map(|_| ())
+        check(unsafe { sys::rtcSetAV1Packetizer(self.id, &init.as_raw()) }).map(|_| ())
     }
 
     pub fn set_opus_packetization(&mut self, init: PacketizationHandlerInit) -> Result<()> {
-        check(unsafe { sys::rtcSetOpusPacketizationHandler(self.id, &init.as_raw()) }).map(|_| ())
+        check(unsafe { sys::rtcSetOpusPacketizer(self.id, &init.as_raw()) }).map(|_| ())
     }
 
     pub fn set_aac_packetization(&mut self, init: PacketizationHandlerInit) -> Result<()> {
-        check(unsafe { sys::rtcSetAACPacketizationHandler(self.id, &init.as_raw()) }).map(|_| ())
+        check(unsafe { sys::rtcSetAACPacketizer(self.id, &init.as_raw()) }).map(|_| ())
     }
 }
 
