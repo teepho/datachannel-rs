@@ -489,6 +489,14 @@ where
         }
     }
 
+    pub fn local_description_s(&self) -> Option<String> {
+        self.read_string_ffi(sys::rtcGetLocalDescription, "local_description")
+    }
+
+    pub fn local_description_type_s(&self) -> Option<String> {
+        self.read_string_ffi(sys::rtcGetLocalDescriptionType, "local_description_type")
+    }
+
     pub fn remote_description(&self) -> Option<SessionDescription> {
         let sdp = self
             .read_string_ffi(sys::rtcGetRemoteDescription, "remote_description")
