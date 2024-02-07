@@ -516,6 +516,14 @@ where
         }
     }
 
+    pub fn remote_description_s(&self) -> Option<String> {
+        self.read_string_ffi(sys::rtcGetRemoteDescription, "remote_description")
+    }
+
+    pub fn remote_description_type_s(&self) -> Option<String> {
+        self.read_string_ffi(sys::rtcGetRemoteDescriptionType, "remote_description_type")
+    }
+
     pub fn local_address(&self) -> Option<String> {
         self.read_string_ffi(sys::rtcGetLocalAddress, "local_address")
     }
