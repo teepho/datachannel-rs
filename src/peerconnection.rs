@@ -456,6 +456,13 @@ where
         Ok(())
     }
 
+    pub fn set_remote_description_s(&mut self, sdp: &str, sdp_type: &str) -> Result<()> {
+        let sdp = CString::new(sdp)?;
+        let sdp_type = CString::new(sdp_type)?;
+        check(unsafe { sys::rtcSetRemoteDescription(self.id.0, sdp.as_ptr(), sdp_type.as_ptr()) })?;
+        Ok(())
+    }
+
     pub fn add_remote_candidate(&mut self, cand: &IceCandidate) -> Result<()> {
         let mid = CString::new(cand.mid.clone())?;
         let cand = CString::new(cand.candidate.clone())?;
